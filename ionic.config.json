@@ -1,0 +1,8 @@
+{
+  "name": "zeronet-profile-chooser",
+  "app_id": "",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}

@@ -1,0 +1,2 @@
+#!/bin/bash
+ionic cordova run android --livereload --device --consolelogs --serverlogs

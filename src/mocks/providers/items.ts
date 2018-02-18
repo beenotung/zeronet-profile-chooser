@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
-import { Item } from '../../models/item';
+import {Item} from '../../models/item';
 
 @Injectable()
 export class Items {
@@ -11,7 +11,6 @@ export class Items {
     "profilePic": "assets/img/speakers/bear.jpg",
     "about": "Burt is a Bear.",
   };
-
 
   constructor() {
     let items = [

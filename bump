@@ -1,0 +1,20 @@
+#!/bin/bash
+## bump version
+set -e
+set -o pipefail
+
+o=$(./version)
+if [ $# == 1 ]; then
+  v="$1"
+else
+  v=$(echo "$o" | awk -F '.' '{print $1 "." $2 "." $3+1}')
+fi
+echo "set version $o -> $v"
+
+sed -i "s/\"version\": \".*\"/\"version\": \"$v\"/" package.json
+sed -i "s/client_version = \".*\"/client_version = \"$v\"/" src/config.ts
+sed -i "s/version=\"$o\"/version=\"$v\"/" config.xml
+
+echo -n "please commit the changes made by version number update...";read line
+git tag "v$v"
+echo "created tag v$v"

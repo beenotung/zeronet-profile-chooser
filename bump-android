@@ -1,0 +1,10 @@
+#!/bin/bash
+## bump version
+o=$(./version android)
+if [ $# = 1 ]; then
+  v="$1"
+else
+  v=$(($o + 1))
+fi
+echo "set android version code $o -> $v"
+sed -i "s/android-versionCode=\"$o\" /android-versionCode=\"$v\" /" config.xml

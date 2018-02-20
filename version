@@ -1,0 +1,11 @@
+#!/bin/bash
+case "$1" in
+  ""|"n"|"npm")
+    cat package.json | grep version | awk -F '"' '{print $4}' | head -n 1
+    ;;
+  "a"|"android")
+    cat config.xml | grep android-versionCode \
+    | awk -F 'android-versionCode' '{print $2}' \
+    | awk -F '"' '{print $2}'
+    ;;
+esac

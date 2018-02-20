@@ -1,0 +1,35 @@
+= Zeronet Profile Chooser
+
+Switch Zeronet account easily
+
+== Motivation
+
+It is trivial to switch between accounts on Zeronet.
+
+One needs to use the file explorer to replace the users.json under a deep directory manually. There is a need to simplified the process.
+
+== Convention
+
+Different users.json will be placed under /mnt/sdcard/Android/data/net.mkg20001.zeronet/files/zero/data/ followed by the username.
+
+For examples:
+
+- users.json.alice
+- users.json.bob
+
+== Reminder
+
+You need to restart the Zeronet daemon after switching account for it to take effect.
+
+== Future Features
+
+Add Chinese support
+Import account from other directory (e.g. Downloads)
+Import account over the network
+
+
+== Release Channel
+
+* https://play.google.com/store/apps/details?id=com.github.beenotung.zeronet_profile_chooser[Google Play]
+* https://ipfs.io/ipfs/QmXcxN6cnQHCDkmPr1edc3ZBeEac6jpvnX5EyaF7EA1gUy/app-release-signed.apk[IPFS]
+* https://QmXcxN6cnQHCDkmPr1edc3ZBeEac6jpvnX5EyaF7EA1gUy.surge.sh/app-release-signed.apk[Surge CDN]

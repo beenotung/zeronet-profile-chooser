@@ -35,6 +35,18 @@ export class ProfileProvider {
       })
   }
 
+  async getUsername(path: string, file: string): Promise<string> {
+    const s = await this.file.readAsText(path, file);
+    const o = JSON.parse(s);
+    const hs = Object.keys(o);
+    if (hs.length !== 1) {
+      console.error('invalid users.json, name:' + file);
+      this.debug.addLine('invalid users.json, name:' + file);
+      throw new Error("invalid users.json file: " + path + " " + file);
+    }
+    return o[hs[0]].certs['zeroid.bit'].auth_user_name;
+  }
+
   async all(): Promise<Profile[]> {
     if (!this.common.isCordova()) {
       alert('not cordova platform!');
@@ -47,28 +59,20 @@ export class ProfileProvider {
     const list = await this.file.listDir(path, folderName);
     const res = list
       .filter(x => x.isFile)
+      .filter(x => x.name != ProfileFilename)
       .filter(x => x.name.startsWith(ProfileFilename))
     ;
+    const currentUser = await this.getUsername(path + folderName + '/', ProfileFilename);
     return Promise.all(res.map(file => {
-      return this.file.readAsText(path + folderName + '/', file.name)
-        .then(s => JSON.parse(s))
-        .then(o => {
-          console.log({o});
-          (window as any)['o'] = o;
-          const hs = Object.keys(o);
-          this.debug.setText(JSON.stringify(o));
-          if (hs.length != 1) {
-            console.log('invalid users.json, name:' + file.name);
-            this.debug.addLine('invalid users.json, name:' + file.name);
-            return undefined;
-          }
-          const username = o[hs[0]].certs['zeroid.bit'].auth_user_name;
+      // return this.file.readAsText(path + folderName + '/', file.name)
+      return this.getUsername(path + folderName + '/', file.name)
+        .then(username => {
           this.debug.addLine(inspect({username}));
           return {
             username
             , filename: file.name
             , path: path + folderName + '/'
-            , isActive: file.name == ProfileFilename
+            , isActive: username == currentUser
           };
         })
     })).then(xs => xs.filter(x => x));

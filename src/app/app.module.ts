@@ -1,18 +1,21 @@
-import { NgModule, ErrorHandler } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
-import { MyApp } from './app.component';
+import {ErrorHandler, NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
+import {MyApp} from './app.component';
 
-import { AboutPage } from '../pages/about/about';
-import { ContactPage } from '../pages/contact/contact';
-import { HomePage } from '../pages/home/home';
-import { TabsPage } from '../pages/tabs/tabs';
+import {AboutPage} from '../pages/about/about';
+import {ContactPage} from '../pages/contact/contact';
+import {HomePage} from '../pages/home/home';
+import {TabsPage} from '../pages/tabs/tabs';
 
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { ProfileProvider } from '../providers/profile/profile';
+import {StatusBar} from '@ionic-native/status-bar';
+import {SplashScreen} from '@ionic-native/splash-screen';
+import {ProfileProvider} from '../providers/profile/profile';
 import {File} from "@ionic-native/file";
 import {IonicStorageModule} from "@ionic/storage";
+import {NoticeCardComponent} from "../components/notice-card/notice-card";
+import { CommonProvider } from '../providers/common/common';
+import { DebugProvider } from '../providers/debug/debug';
 
 @NgModule({
   declarations: [
@@ -20,7 +23,8 @@ import {IonicStorageModule} from "@ionic/storage";
     AboutPage,
     ContactPage,
     HomePage,
-    TabsPage
+    TabsPage,
+    NoticeCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,7 +44,10 @@ import {IonicStorageModule} from "@ionic/storage";
     SplashScreen,
     File,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    ProfileProvider
+    ProfileProvider,
+    CommonProvider,
+    DebugProvider
   ]
 })
-export class AppModule {}
+export class AppModule {
+}

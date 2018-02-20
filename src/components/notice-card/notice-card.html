@@ -1,0 +1,12 @@
+<ion-card>
+  <ion-card-content ion-text text-center *ngIf="center">
+    <code *ngIf="code">{{ text }}</code>
+    <pre *ngIf="pre">{{ text }}</pre>
+    <span *ngIf="!(code||pre)">{{ text }}</span>
+  </ion-card-content>
+  <ion-card-content ion-text *ngIf="!center">
+    <code *ngIf="code">{{ text }}</code>
+    <pre *ngIf="pre">{{ text }}</pre>
+    <span *ngIf="!(code||pre)">{{ text }}</span>
+  </ion-card-content>
+</ion-card>

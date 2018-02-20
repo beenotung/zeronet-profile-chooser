@@ -6,15 +6,32 @@
 
 <ion-content padding>
 
-  <ion-note>
-    {{ hasProfile }}
-  </ion-note>
+  <notice-card class="debug" [text]="debugText" [pre]="true" [center]="false"></notice-card>
 
-  <ion-list>
-    <ion-list-header>Local profile list</ion-list-header>
-    <ion-item *ngFor="let profile of profiles">
-      <span>{{ profile.username }}</span>
-    </ion-item>
-  </ion-list>
+  <div *ngIf="isCordova">
+    <notice-card [text]="status"></notice-card>
+
+    <ion-list>
+      <ion-list-header>Local profile list</ion-list-header>
+      <ion-item *ngFor="let profile of profiles">
+        <span>{{ profile.username }}</span>
+        <ion-buttons item-end>
+          <button ion-button
+                  [color]="profile.isActive?'secondary':'primary'"
+                  [disabled]="profile.isActive"
+                  (click)="selectProfile(profile)">
+            Select
+          </button>
+        </ion-buttons>
+      </ion-item>
+      <ion-item *ngIf="profiles.length===0" text-center>
+        <span>No Profiles</span>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <div *ngIf="!isCordova">
+    <notice-card [text]="'Not Supported!\n This is not running with cordova.'"></notice-card>
+  </div>
 
 </ion-content>

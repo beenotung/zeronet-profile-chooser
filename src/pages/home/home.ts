@@ -33,7 +33,7 @@ export class HomePage implements OnInit {
       this.profileCtrl.hasProfile().then(x => this.status = x
         ? 'ZeroNet is detected'
         : 'ZeroNet is not installed?');
-      this.profileCtrl.all().then(xs => this.profiles = xs);
+      this.updateList();
     } else {
       this.isCordova = true;
       this.status = 'mock from non-cordova device';
@@ -44,14 +44,16 @@ export class HomePage implements OnInit {
     }
   }
 
+  updateList() {
+    return this.profileCtrl.all().then(xs => this.profiles = xs);
+  }
+
   async selectProfile(profile: Profile) {
     if (profile.isActive) {
       return this.alertCtrl.create({
         title: `profile ${profile.username} is already selected.`
       }).present();
     }
-    console.log('TODO');
-    this.debug.addLine('TODO');
     let msg: string;
     try {
       await this.profileCtrl.select(profile);
@@ -64,7 +66,8 @@ export class HomePage implements OnInit {
     return this.alertCtrl.create({
       message: msg
       , buttons: ['ok']
-    }).present();
+    }).present()
+      .then(_ => this.updateList());
   }
 
 }

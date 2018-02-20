@@ -81,4 +81,6 @@
     <plugin name="cordova-plugin-splashscreen" spec="^5.0.2" />
     <plugin name="cordova-plugin-ionic-webview" spec="^1.1.16" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
+    <allow-navigation href="http://192.168.1.144:8100" />
+    <plugin name="cordova-plugin-file" spec="^6.0.1" />
 </widget>

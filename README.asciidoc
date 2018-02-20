@@ -31,5 +31,5 @@ Import account over the network
 == Release Channel
 
 * https://play.google.com/store/apps/details?id=com.github.beenotung.zeronet_profile_chooser[Google Play]
-* https://ipfs.io/ipfs/QmXcxN6cnQHCDkmPr1edc3ZBeEac6jpvnX5EyaF7EA1gUy/app-release-signed.apk[IPFS]
-* https://QmXcxN6cnQHCDkmPr1edc3ZBeEac6jpvnX5EyaF7EA1gUy.surge.sh/app-release-signed.apk[Surge CDN]
+* https://ipfs.io/ipfs/QmdRi4D9aadugd2QvxgZn4eoyWHN4qLUF2mSPPpnhpxh5t/app-release-signed.apk[IPFS]
+* https://zeronet-profile-chooser.surge.sh/app-release-signed.apk[Surge CDN]

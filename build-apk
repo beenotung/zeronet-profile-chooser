@@ -1,0 +1,30 @@
+#!/bin/bash
+set -e
+set -o pipefail
+
+keystore="zeronet-profile-chooser.keystore"
+
+if [ ! -f "apk/$keystore" ]; then
+  echo "keystore file 'apk/$keystore' is not provided";
+  exit 1;
+fi
+
+echo -n "remember to increase the version number... [ok] :"; read line
+
+#./auto-init
+yarn
+
+if [ ! -d ./resources/android/ ]; then
+  #cp ./resources/raw/android/*.png ./resources/
+  ionic cordova resource android
+fi
+
+rm -f platforms/android/build/outputs/apk/*.apk
+ionic cordova build --release android $@
+cp -f platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk apk/
+cd apk
+
+rm -f app-release-signed.apk
+./sign.sh
+./align.sh
+#rm -f app-release-unsigned.apk

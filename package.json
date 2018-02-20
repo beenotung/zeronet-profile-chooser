@@ -1,6 +1,6 @@
 {
   "name": "zeronet-profile-chooser",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Helper tool to switch zeronet account.",
   "private": true,
   "author": "Beeno Tung",

@@ -23,9 +23,9 @@ You need to restart the Zeronet daemon after switching account for it to take ef
 
 == Future Features
 
-Add Chinese support
-Import account from other directory (e.g. Downloads)
-Import account over the network
+- Add Chinese support
+- Import account from other directory (e.g. Downloads)
+- Import account over the network
 
 
 == Release Channel

@@ -9,4 +9,3 @@ ipfs add -w "$f"
 mkdir -p surge
 cp "$f" surge/
 surge surge zeronet-profile-chooser.surge.sh
-ipfs add -w "$f"

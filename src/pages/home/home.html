@@ -6,7 +6,8 @@
 
 <ion-content padding>
 
-  <notice-card class="debug" [text]="debugText" [pre]="true" [center]="false"></notice-card>
+  <notice-card class="debug" [text]="debugText" [pre]="true" [center]="false"
+               [hidden]="debugText.length==0"></notice-card>
 
   <div *ngIf="isCordova">
     <notice-card [text]="status"></notice-card>

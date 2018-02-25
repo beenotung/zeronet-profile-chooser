@@ -8,6 +8,13 @@ import {DebugProvider} from "../debug/debug";
 
 const ProfileFilename = 'users.json';
 
+class TooManyUserError extends Error {
+  constructor(msg?) {
+    super(msg);
+    this.name = 'TooManyUserError';
+  }
+}
+
 @Injectable()
 export class ProfileProvider {
 
@@ -42,7 +49,9 @@ export class ProfileProvider {
     if (hs.length !== 1) {
       console.error('invalid users.json, name:' + file);
       this.debug.addLine('invalid users.json, name:' + file);
-      throw new Error("invalid users.json file: " + path + " " + file);
+      this.debug.addLine("hs=" + inspect(hs));
+      this.debug.addLine("o=" + inspect(o));
+      throw new TooManyUserError("invalid users.json file: " + path + " " + file);
     }
     return o[hs[0]].certs['zeroid.bit'].auth_user_name;
   }
@@ -62,12 +71,22 @@ export class ProfileProvider {
       .filter(x => x.name != ProfileFilename)
       .filter(x => x.name.startsWith(ProfileFilename))
     ;
-    const currentUser = await this.getUsername(path + folderName + '/', ProfileFilename);
+    const currentUser = await this.getUsername(path + folderName + '/', ProfileFilename)
+      .catch(e => {
+        /* maybe more than one users in the current file */
+        if (e && e.name === 'TooManyUserError') {
+          this.debug.clear();
+          return 'Failed to get current username'
+        } else {
+          this.debug.addLine(inspect({e}));
+          return Promise.reject(e) as Promise<string>;
+        }
+      });
     return Promise.all(res.map(file => {
       // return this.file.readAsText(path + folderName + '/', file.name)
       return this.getUsername(path + folderName + '/', file.name)
         .then(username => {
-          this.debug.addLine(inspect({username}));
+          // this.debug.addLine(inspect({username}));
           return {
             username
             , filename: file.name

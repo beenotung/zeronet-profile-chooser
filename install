@@ -1,0 +1,6 @@
+#!/bin/bash
+hash yarn 2>/dev/null || npm i -g yarn
+list=""
+hash ionic 2>/dev/null || list="$list ionic"
+hash cordova 2>/dev/null || list="$list cordova"
+[[ ! -z "$list" ]] && yarn global add $list

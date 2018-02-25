@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="102" id="com.github.beenotung.zeronet_profile_chooser" version="0.1.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="103" id="com.github.beenotung.zeronet_profile_chooser" version="0.1.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>zeronet-profile-chooser</name>
     <description>Helper tool to switch zeronet account.</description>
     <author email="aabbcc1241@yahoo.com.hk" href="https://beeno-tung.surge.sh/">Beeno Tung</author>

@@ -1,4 +1,4 @@
-export let client_version = "0.1.3";
+export let client_version = "0.2.0";
 /*
 * /mnt/sdcard/Android/data/net.mkg20001.zeronet/files/zero/data/
 * file:///storage/emulated/0/Android/data/com.github.beenotung.zeronet_profile_chooser/files/

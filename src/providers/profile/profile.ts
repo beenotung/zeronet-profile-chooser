@@ -5,6 +5,7 @@ import {Profile} from "../../model/profile";
 import {inspect} from "util";
 import {CommonProvider} from "../common/common";
 import {DebugProvider} from "../debug/debug";
+import {Subject} from "rxjs/Subject";
 
 const ProfileFilename = 'users.json';
 
@@ -17,6 +18,8 @@ class TooManyUserError extends Error {
 
 @Injectable()
 export class ProfileProvider {
+
+  currentUser = new Subject<string>();
 
   constructor(public file: File
     , public debug: DebugProvider
@@ -53,7 +56,8 @@ export class ProfileProvider {
       this.debug.addLine("o=" + inspect(o));
       throw new TooManyUserError("invalid users.json file: " + path + " " + file);
     }
-    return o[hs[0]].certs['zeroid.bit'].auth_user_name;
+    const cert = o[hs[0]].certs['zeroid.bit'];
+    return cert ? cert.auth_user_name : '';
   }
 
   async all(): Promise<Profile[]> {
@@ -72,6 +76,10 @@ export class ProfileProvider {
       .filter(x => x.name.startsWith(ProfileFilename))
     ;
     const currentUser = await this.getUsername(path + folderName + '/', ProfileFilename)
+      .then(s => {
+        this.currentUser.next(s);
+        return s;
+      })
       .catch(e => {
         /* maybe more than one users in the current file */
         if (e && e.name === 'TooManyUserError') {
@@ -94,7 +102,10 @@ export class ProfileProvider {
             , isActive: username == currentUser
           };
         })
-    })).then(xs => xs.filter(x => x));
+    }))
+      .then(xs => xs.filter(x => x))
+      .then(xs => Array.from(new Set(xs)))
+      ;
   }
 
   async select(profile: Profile) {
@@ -104,5 +115,18 @@ export class ProfileProvider {
     }
     return this.file.copyFile(profile.path, profile.filename
       , "file:///" + profileRoot, ProfileFilename)
+  }
+
+  async unSelect() {
+    if (!this.common.isCordova()) {
+      alert('mock un-select profile');
+    }
+    const username = await this.getUsername('file:///' + profileRoot, ProfileFilename);
+    if (!username) {
+      throw new Error('Failed to get username of users.json')
+    }
+    await this.file.moveFile('file:///' + profileRoot, ProfileFilename
+      , 'file:///' + profileRoot, ProfileFilename + '.' + username);
+    return this.file.writeFile('file:///' + profileRoot, ProfileFilename, '{}')
   }
 }

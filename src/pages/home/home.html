@@ -13,6 +13,20 @@
     <notice-card [text]="status"></notice-card>
 
     <ion-list>
+      <ion-list-header>Current Profile</ion-list-header>
+      <ion-item text-center>
+        <ion-label>{{ getCurrentUserString() }}</ion-label>
+        <ion-buttons item-end>
+          <button ion-button
+                  color="danger"
+                  [disabled]="!currentUser"
+                  (click)="unSelectCurrent()">
+            Un-Select
+          </button>
+        </ion-buttons>
+      </ion-item>
+    </ion-list>
+    <ion-list>
       <ion-list-header>Local profile list</ion-list-header>
       <ion-item *ngFor="let profile of profiles">
         <span>{{ profile.username }}</span>

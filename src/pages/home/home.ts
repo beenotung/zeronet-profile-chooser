@@ -17,6 +17,7 @@ export class HomePage implements OnInit {
   debugText: string = '';
 
   profiles: Profile[] = [];
+  currentUser: string = '';
 
   constructor(public navCtrl: NavController
     , public common: CommonProvider
@@ -33,6 +34,7 @@ export class HomePage implements OnInit {
       this.profileCtrl.hasProfile().then(x => this.status = x
         ? 'ZeroNet is detected'
         : 'ZeroNet is not installed?');
+      this.profileCtrl.currentUser.subscribe(s => this.currentUser = s);
       this.updateList();
     } else {
       this.isCordova = true;
@@ -52,6 +54,7 @@ export class HomePage implements OnInit {
     if (profile.isActive) {
       return this.alertCtrl.create({
         title: `profile ${profile.username} is already selected.`
+        , buttons: ['ok']
       }).present();
     }
     let msg: string;
@@ -70,4 +73,27 @@ export class HomePage implements OnInit {
       .then(_ => this.updateList());
   }
 
+  async unSelectCurrent() {
+    if (!this.currentUser) {
+      return this.alertCtrl.create({
+        title: `no profile is selected currently already.`
+      }).present();
+    }
+    let msg: string;
+    try {
+      await this.profileCtrl.unSelect();
+      msg = 'Un-Select profile successfully'
+    } catch (e) {
+      this.debug.addLine('failed to un-select profile:' + inspect(e));
+      msg = 'Failed to un-select profile'
+    }
+    return this.alertCtrl.create({
+      message: msg
+      , buttons: ['ok']
+    }).present(_ => this.updateList())
+  }
+
+  getCurrentUserString(): string {
+    return this.currentUser || '(none)'
+  }
 }

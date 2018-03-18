@@ -127,6 +127,7 @@ export class ProfileProvider {
     }
     await this.file.moveFile('file:///' + profileRoot, ProfileFilename
       , 'file:///' + profileRoot, ProfileFilename + '.' + username);
-    return this.file.writeFile('file:///' + profileRoot, ProfileFilename, '{}')
+    await this.file.writeFile('file:///' + profileRoot, ProfileFilename, '{}');
+    this.currentUser.next('');
   }
 }

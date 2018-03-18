@@ -90,7 +90,8 @@ export class HomePage implements OnInit {
     return this.alertCtrl.create({
       message: msg
       , buttons: ['ok']
-    }).present(_ => this.updateList())
+    }).present()
+      .then(_ => this.updateList())
   }
 
   getCurrentUserString(): string {

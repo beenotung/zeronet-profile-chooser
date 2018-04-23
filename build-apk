@@ -16,11 +16,11 @@ yarn
 
 if [ ! -d ./resources/android/ ]; then
   #cp ./resources/raw/android/*.png ./resources/
-  ionic cordova resource android
+  ionic cordova resources android
 fi
 
 rm -f platforms/android/build/outputs/apk/*.apk
-ionic cordova build --release android $@
+ionic cordova build --release --aot --prod android $@
 cp -f platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk apk/
 cd apk
 

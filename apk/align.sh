@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-/opt/android-sdk/build-tools/*/zipalign -v 4 app-release-unsigned.apk app-release-signed.apk
+v=$(ls /opt/android-sdk/build-tools/ | sort -n | tail -n 1)
+/opt/android-sdk/build-tools/${v}/zipalign -v 4 app-release-unsigned.apk app-release-signed.apk

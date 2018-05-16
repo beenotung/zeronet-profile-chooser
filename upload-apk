@@ -8,4 +8,6 @@ f="app-release-signed.apk"
 ipfs add -w "$f"
 mkdir -p surge
 cp "$f" surge/
+hash 2>/dev/null yarn || npm i -g yarn
+hash 2>/dev/null surge || yarn global add surge
 surge surge zeronet-profile-chooser.surge.sh

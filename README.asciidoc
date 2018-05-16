@@ -31,7 +31,7 @@ You need to restart the Zeronet daemon after switching account for it to take ef
 == Release Channel
 
 * https://play.google.com/store/apps/details?id=com.github.beenotung.zeronet_profile_chooser[Google Play]
-* https://ipfs.io/ipfs/QmZ1TsDv8tq584TaNU1e1zzsqRf11BT6J4vTwPLFpybgeN/app-release-signed.apk[IPFS]
+* https://ipfs.io/ipfs/QmTPsA9MmHYEgkkdag4FQZbweTnHMBjj2XsLtBKEf8TvHp/app-release-signed.apk[IPFS]
 * https://zeronet-profile-chooser.surge.sh/app-release-signed.apk[Surge CDN]
 
 == Discussion Channel

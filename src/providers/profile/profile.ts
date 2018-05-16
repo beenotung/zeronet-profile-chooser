@@ -6,6 +6,7 @@ import {inspect} from "util";
 import {CommonProvider} from "../common/common";
 import {DebugProvider} from "../debug/debug";
 import {Subject} from "rxjs/Subject";
+import {AndroidPermissions} from "@ionic-native/android-permissions";
 
 const ProfileFilename = 'users.json';
 
@@ -16,16 +17,35 @@ class TooManyUserError extends Error {
   }
 }
 
+let w = window as any;
+w.log = p => p.then(x => console.log(w.res = x)).catch(x => console.error(w.err = x));
+
 @Injectable()
 export class ProfileProvider {
 
   currentUser = new Subject<string>();
 
   constructor(public file: File
+    , public androidPermissions: AndroidPermissions
     , public debug: DebugProvider
     , public common: CommonProvider) {
     console.log('Hello ProfileProvider Provider');
-    (window as any)['file'] = file;
+    w.file = file;
+    w.ps = this.androidPermissions.PERMISSION;
+
+    [this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE
+      , this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE]
+      .forEach(p => {
+        this.androidPermissions.checkPermission(p).then(
+          result => {
+            console.log(`Has permission ${p}?`, result.hasPermission);
+            if (!result.hasPermission) {
+              this.androidPermissions.requestPermission(p)
+            }
+          },
+          err => this.androidPermissions.requestPermission(p)
+        );
+      })
   }
 
   async hasProfile() {
@@ -33,7 +53,7 @@ export class ProfileProvider {
       alert('not cordova platform!');
       return false;
     }
-    return this.file.checkFile("file:///" + profileRoot, ProfileFilename)
+    return this.file.checkFile("file://" + profileRoot, ProfileFilename)
       .then(_ => true)
       .catch(e => {
         if (e.code == 1 && e.message == "NOT_FOUND_ERR") {
@@ -68,7 +88,7 @@ export class ProfileProvider {
     const ss = profileRoot.split('/');
     ss.pop();
     const folderName = ss.pop();
-    const path = "file:///" + ss.join('/') + '/';
+    const path = "file://" + ss.join('/') + '/';
     const list = await this.file.listDir(path, folderName);
     const res = list
       .filter(x => x.isFile)
@@ -109,25 +129,28 @@ export class ProfileProvider {
   }
 
   async select(profile: Profile) {
+    console.log(1);
     if (!this.common.isCordova()) {
       alert('mock select profile: ' + profile.username);
       return;
     }
+    console.log(2, {profile, profileRoot, ProfileFilename});
+    (window as any).profile = profile;
     return this.file.copyFile(profile.path, profile.filename
-      , "file:///" + profileRoot, ProfileFilename)
+      , "file://" + profileRoot, ProfileFilename)
   }
 
   async unSelect() {
     if (!this.common.isCordova()) {
       alert('mock un-select profile');
     }
-    const username = await this.getUsername('file:///' + profileRoot, ProfileFilename);
+    const username = await this.getUsername('file://' + profileRoot, ProfileFilename);
     if (!username) {
       throw new Error('Failed to get username of users.json')
     }
-    await this.file.moveFile('file:///' + profileRoot, ProfileFilename
-      , 'file:///' + profileRoot, ProfileFilename + '.' + username);
-    await this.file.writeFile('file:///' + profileRoot, ProfileFilename, '{}');
+    await this.file.moveFile('file://' + profileRoot, ProfileFilename
+      , 'file://' + profileRoot, ProfileFilename + '.' + username);
+    await this.file.writeFile('file://' + profileRoot, ProfileFilename, '{}');
     this.currentUser.next('');
   }
 }

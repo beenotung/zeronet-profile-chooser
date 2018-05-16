@@ -16,6 +16,7 @@ import {IonicStorageModule} from "@ionic/storage";
 import {NoticeCardComponent} from "../components/notice-card/notice-card";
 import { CommonProvider } from '../providers/common/common';
 import { DebugProvider } from '../providers/debug/debug';
+import {AndroidPermissions} from "@ionic-native/android-permissions";
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { DebugProvider } from '../providers/debug/debug';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ProfileProvider,
     CommonProvider,
-    DebugProvider
+    DebugProvider,
+    AndroidPermissions
   ]
 })
 export class AppModule {

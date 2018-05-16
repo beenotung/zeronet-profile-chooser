@@ -20,7 +20,8 @@ if [ ! -d ./resources/android/ ]; then
 fi
 
 rm -f platforms/android/build/outputs/apk/*.apk
-ionic cordova build --release --aot --prod android $@
+#ionic cordova build --release --aot --prod android $@
+ionic cordova build --release --aot android $@
 cp -f platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk apk/
 cd apk
 

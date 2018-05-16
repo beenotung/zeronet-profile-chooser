@@ -33,6 +33,7 @@ export class ProfileProvider {
     w.file = file;
     w.ps = this.androidPermissions.PERMISSION;
 
+    const onload = () => setTimeout(() => location.reload(), 2000);
     [this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE
       , this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE]
       .forEach(p => {
@@ -40,10 +41,10 @@ export class ProfileProvider {
           result => {
             console.log(`Has permission ${p}?`, result.hasPermission);
             if (!result.hasPermission) {
-              this.androidPermissions.requestPermission(p)
+              this.androidPermissions.requestPermission(p).then(onload)
             }
           },
-          err => this.androidPermissions.requestPermission(p)
+          err => this.androidPermissions.requestPermission(p).then(onload)
         );
       })
   }

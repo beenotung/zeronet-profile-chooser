@@ -17,7 +17,7 @@ class TooManyUserError extends Error {
   }
 }
 
-let w = window as any;
+const w = window as any;
 w.log = p => p.then(x => console.log(w.res = x)).catch(x => console.error(w.err = x));
 
 @Injectable()

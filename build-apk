@@ -12,7 +12,7 @@ fi
 echo -n "remember to increase the version number... [ok] :"; read line
 
 #./auto-init
-yarn
+npm i
 
 if [ ! -d ./resources/android/ ]; then
   #cp ./resources/raw/android/*.png ./resources/
